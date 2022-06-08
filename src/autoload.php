@@ -1,6 +1,6 @@
 <?php
 
-namespace LokusWP\Notification\Fonnte;
+namespace LokusWP\Notification\VendorName;
 
 class Boot {
 
@@ -9,8 +9,8 @@ class Boot {
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
 
 		// Activation and Deactivation
-		register_activation_hook( LOKUSWP_FONNTE_BASE, [ $this, 'activate' ] );
-		register_deactivation_hook( LOKUSWP_FONNTE_BASE, [ $this, 'deactivate' ] );
+		register_activation_hook( LOKUSWP_VENDORNAME_BASE, [ $this, 'activate' ] );
+		register_deactivation_hook( LOKUSWP_VENDORNAME_BASE, [ $this, 'deactivate' ] );
 	}
 
 	/**
@@ -20,7 +20,7 @@ class Boot {
 	 * @since 1.0.0
 	 */
 	public function activate() {
-		require_once LOKUSWP_FONNTE_PATH . 'src/includes/common/class-activation.php';
+		require_once LOKUSWP_VENDORNAME_PATH . 'src/includes/common/class-activation.php';
 		Activation::activate();
 	}
 
@@ -31,7 +31,7 @@ class Boot {
 	 * @since 1.0.0
 	 */
 	public function deactivate() {
-		require_once LOKUSWP_FONNTE_PATH . 'src/includes/common/class-deactivation.php';
+		require_once LOKUSWP_VENDORNAME_PATH . 'src/includes/common/class-deactivation.php';
 		Deactivation::deactivate();
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace LokusWP\Notification\Fonnte;
+namespace LokusWP\Notification\VendorName;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

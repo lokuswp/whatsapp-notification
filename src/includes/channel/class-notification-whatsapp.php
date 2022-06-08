@@ -6,10 +6,10 @@ if ( ! defined( 'WPTEST' ) ) {
 	defined( 'ABSPATH' ) or die( "Direct access to files is prohibited" );
 }
 
-class Notification_Whatsapp_Fonnte extends Notification\Gateway {
+class Notification_Whatsapp_VendorName extends Notification\Gateway {
 
-	protected string $id = 'notification-whatsapp-fonnte';
-	protected string $name = 'Fonnte';
+	protected string $id = 'notification-whatsapp-vendorname';
+	protected string $name = 'Vendor Name';
 	protected string $type = 'whatsapp';
 
 	protected array $country = [ 'ID', 'US' ];
@@ -27,7 +27,7 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 		add_action( 'lokuswp/notification/processing', [ $this, 'execute' ] );
 
 		// Action for Save Option and Test
-		// add_action( 'wp_ajax_lokuswp_notification_fonnte_test', [ $this, 'action_test' ] );
+		// add_action( 'wp_ajax_lokuswp_notification_vendorname_test', [ $this, 'action_test' ] );
 	}
 
 	/******************************************************************************************/
@@ -91,7 +91,7 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 		$data['status_text'] = lwp_get_transaction_status_text( $notification_obj->status );
 
 		// Injecting Return with Filter
-		return apply_filters( 'lokuswp/notification/whatsapp/fonnte/data', $data, $trx_id );
+		return apply_filters( 'lokuswp/notification/whatsapp/vendorname/data', $data, $trx_id );
 	}
 
 	/**
@@ -130,12 +130,8 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 		$data   = $this->prepare_data( $notification_obj );
 		$status = $data['status'];
 
-		ray( $data );
-
 		// Getting Notification Template
 		$template = $this->prepare_template( $notification_obj->app, $status, $role, $locale );
-
-		ray( $template );
 
 		// Dynamic Replacing Tag based on Data, {{tag}} = value
 		foreach ( $data as $tag => $value ) {
@@ -143,8 +139,8 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 		}
 
 		$template = str_replace( "{{payment}}", lwp_get_notification_block_payment_text( $locale, $notification_obj ), $template );
-//		$template = str_replace( "{{summary}}", lwp_get_notification_block_summary_text( $locale, $notification_obj->cart_uuid ), $template );
-//		$template = str_replace( "{{billing}}", lwp_get_notification_block_billing_text( $locale, $notification_obj->transaction_id ), $template );
+		$template = str_replace( "{{summary}}", lwp_get_notification_block_summary_text( $locale, $notification_obj->cart_uuid ), $template );
+		$template = str_replace( "{{billing}}", lwp_get_notification_block_billing_text( $locale, $notification_obj->transaction_id ), $template );
 
 		return $template;
 	}
@@ -164,7 +160,6 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 
 
 		if ( $this->status() && isset( $notification_obj->payment_id ) ) {
-
 
 
 			// Get Personal Data
@@ -214,7 +209,7 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 		$curl = curl_init();
 
 		curl_setopt_array( $curl, array(
-			CURLOPT_URL            => "https://md.fonnte.com/api/send_message.php",
+			CURLOPT_URL            => "https://vendorname.com/api/send_message",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING       => "",
 			CURLOPT_MAXREDIRS      => 10,
@@ -238,8 +233,6 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 
 		curl_close( $curl );
 		$res = json_decode( $response );
-
-		ray( $res );
 
 		if ( isset( $res->status ) && $res->status == true ) {
 			$this->logger( $notification['recipient'], 'Success', $res->message );
@@ -290,4 +283,4 @@ class Notification_Whatsapp_Fonnte extends Notification\Gateway {
 
 }
 
-Notification\Manager::register( new Notification_Whatsapp_Fonnte() );
+Notification\Manager::register( new Notification_Whatsapp_VendorName() );
