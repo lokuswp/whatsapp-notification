@@ -56,7 +56,7 @@ function lwp_vendorname_dependency() {
 	if ( ! version_compare( LOKUSWP_VENDORNAME_VERSION, $lwp_version, '<' ) ) {
 
 		add_action( 'admin_notices', function () use ( $lwp_version ) {
-			$message      = sprintf( esc_html__( 'LokusWP Fonnte anda tidak kompatibel dengan versi LokusWP Backbone saat ini, silahkan gunakan LokusWP Fonnte v%s atau dibawahnya', 'lokuswp-vendorname' ),
+			$message      = sprintf( esc_html__( 'LokusWP Fonnte anda tidak kompatibel dengan versi LokusWP Backbone saat ini, silahkan gunakan LokusWP VendorName v%s atau dibawahnya', 'lokuswp-vendorname' ),
 				$lwp_version );
 			$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 			echo wp_kses_post( $html_message );
