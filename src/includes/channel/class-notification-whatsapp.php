@@ -40,10 +40,23 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 	 */
 	public function setup() {
 
+
 		if ( empty( lwp_get_option( $this->id . '-config' ) ) ) {
 			$config          = array();
 			$config['token'] = null;
 			lwp_update_option( $this->id . '-config', $config );
+		}
+
+		if ( empty( lwp_get_option( $this->id . '-lwcommerce' ) ) ) {
+			$settings = [];
+			include LOKUSWP_VENDORNAME_PATH . 'src/includes/channel/notification-whatsapp/default-template-lwcommerce.php';
+
+			$settings['pending']['user']['template']['id_ID']    = $template_pending_for_user;
+			$settings['processing']['user']['template']['id_ID'] = $template_processing_for_user;
+			$settings['shipped']['user']['template']['id_ID']    = $template_shipped_for_user;
+			$settings['completed']['user']['template']['id_ID']  = $template_completed_for_user;
+			$settings['cancelled']['user']['template']['id_ID']  = $template_cancelled_for_user;
+			lwp_update_option( $this->id . '-lwcommerce', json_encode( $settings ) );
 		}
 
 	}
@@ -83,9 +96,11 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 
 		// Get Status based on App
 		if ( $notification_obj->app == "lwdonation" ) {
-			$data['status'] = lwd_get_report_meta( $trx_id, '_report_status', true );
+			$data['status']    = lwd_get_report_meta( $trx_id, '_report_status', true );
+			$data['report_id'] = lwd_get_report_meta( $trx_id, '_report_id', true );
 		} else if ( $notification_obj->app == "lwcommerce" ) {
-			$data['status'] = lwc_get_order_meta( $trx_id, '_order_status', true );
+			$data['status']   = lwc_get_order_meta( $trx_id, '_order_status', true );
+			$data['order_id'] = lwc_get_order_meta( $trx_id, '_order_id', true );
 		}
 
 		$data['status_text'] = lwp_get_transaction_status_text( $notification_obj->status );
@@ -108,7 +123,7 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 	 */
 	public function prepare_template( $app, $status, $role, $locale ) {
 
-		$template = lwp_get_option( $this->id . '-' . $app );
+		$template = json_decode( lwp_get_option( $this->id . '-' . $app ), true );
 
 		return isset( $template[ $status ][ $role ]['template'][ $locale ] ) ? esc_attr( $template[ $status ][ $role ]['template'][ $locale ] ) : null;
 	}
@@ -129,6 +144,7 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 		// Getting Email Data, based on App
 		$data   = $this->prepare_data( $notification_obj );
 		$status = $data['status'];
+		$total  = lwp_currency_format( true, $notification_obj->total, $notification_obj->currency );
 
 		// Getting Notification Template
 		$template = $this->prepare_template( $notification_obj->app, $status, $role, $locale );
@@ -139,8 +155,9 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 		}
 
 		$template = str_replace( "{{payment}}", lwp_get_notification_block_payment_text( $locale, $notification_obj ), $template );
-		$template = str_replace( "{{summary}}", lwp_get_notification_block_summary_text( $locale, $notification_obj->cart_uuid ), $template );
-		$template = str_replace( "{{billing}}", lwp_get_notification_block_billing_text( $locale, $notification_obj->transaction_id ), $template );
+		$template = str_replace( "{{summary}}", lwp_get_notification_block_summary_text( $locale, $notification_obj->cart_uuid, $total ), $template );
+
+		// $template = str_replace( "{{billing}}", lwp_get_notification_block_billing_text( $locale, $notification_obj->transaction_id ), $template );
 
 		return $template;
 	}
@@ -168,6 +185,7 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 
 			// Logic : Notification for User
 			$user_template = $this->templating( "user", $notification_obj );
+
 			if ( ! empty( $user_template ) && ! empty( $phone ) ) {
 				$this->send( array(
 					'recipient' => $phone,
@@ -206,45 +224,33 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 		$token    = lwp_sanitize( $settings['token'], 'attr' );
 
 		// Send Logic
-		$curl = curl_init();
+		try {
 
-		curl_setopt_array( $curl, array(
-			CURLOPT_URL            => "https://vendorname.com/api/send_message",
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING       => "",
-			CURLOPT_MAXREDIRS      => 10,
-			CURLOPT_TIMEOUT        => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST  => "POST",
-			CURLOPT_POSTFIELDS     => array(
-				'phone'    => $notification['recipient'],
-				'type'     => 'text',
-				'text'     => $notification['template'],
-				'delay'    => '1',
-				'schedule' => '0'
-			),
-			CURLOPT_HTTPHEADER     => array(
-				"Authorization: " . $token
-			),
-		) );
+			$request = wp_remote_post( 'https://whatsva.id/api/sendMessageText', array(
+				'headers' => array( 'Content-Type' => 'application/json' ),
+				'body'    => json_encode( [
+					'instance_key' => $token,
+					'jid'          => $notification['recipient'],
+					'message'      => $notification['template']
+				] )
+			) );
 
-		$response = curl_exec( $curl );
+			$response = wp_remote_retrieve_body( $request );
 
-		curl_close( $curl );
-		$res = json_decode( $response );
 
-		if ( isset( $res->status ) && $res->status == true ) {
-			$this->logger( $notification['recipient'], 'Success', $res->message );
+			if ( isset( $response ) && $response === "ok" ) {
+				$this->logger( $notification['recipient'], 'Success', $notification['template'] );
 
-			return true;
-		} else {
+				return true;
+			}
+
+		} catch ( \Throwable $th ) {
 			$this->logger( $notification['recipient'], 'Failed', $response );
 
-			return false;
+
 		}
 
-		sleep( 1 ); #do not delete!
+		return false;
 	}
 
 	/******************************************************************************************/

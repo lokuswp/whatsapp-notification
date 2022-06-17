@@ -1,16 +1,16 @@
 <?php
 $settings = lwp_get_option( $this->id . "-config" );
 
-$token = lwp_sanitize( $settings['token'], 'attr' );
+$apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr' ) : null;
 ?>
 
 <style>
     /* Action Tab */
-    #tab-senderpad-log:checked ~ .tab-body-wrapper #tab-body-senderpad-log,
-    #tab-senderpad-unpaid:checked ~ .tab-body-wrapper #tab-body-senderpad-unpaid,
-    #tab-senderpad-paid:checked ~ .tab-body-wrapper #tab-body-senderpad-paid,
-    #tab-senderpad-expired:checked ~ .tab-body-wrapper #tab-body-senderpad-expired,
-    #tab-senderpad-settings:checked ~ .tab-body-wrapper #tab-body-senderpad-settings {
+    #tab-dripsender-log:checked ~ .tab-body-wrapper #tab-body-dripsender-log,
+    #tab-dripsender-unpaid:checked ~ .tab-body-wrapper #tab-body-dripsender-unpaid,
+    #tab-dripsender-paid:checked ~ .tab-body-wrapper #tab-body-dripsender-paid,
+    #tab-dripsender-expired:checked ~ .tab-body-wrapper #tab-body-dripsender-expired,
+    #tab-dripsender-settings:checked ~ .tab-body-wrapper #tab-body-dripsender-settings {
         position: relative;
         top: 0;
         opacity: 1;
@@ -44,22 +44,22 @@ $token = lwp_sanitize( $settings['token'], 'attr' );
 </style>
 
 <div class="tabs-wrapper">
-    <input type="radio" name="senderpad" id="tab-senderpad-log" checked="checked"/>
-    <label class="tab" for="tab-senderpad-log"><?php _e( 'Log', 'lokuswp' ); ?></label>
+    <input type="radio" name="dripsender" id="tab-dripsender-log" checked="checked"/>
+    <label class="tab" for="tab-dripsender-log"><?php _e( 'Log', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="senderpad" id="tab-senderpad-settings"/>
-    <label class="tab" for="tab-senderpad-settings"><?php _e( 'Settings', 'lokuswp' ); ?></label>
+    <input type="radio" name="dripsender" id="tab-dripsender-settings"/>
+    <label class="tab" for="tab-dripsender-settings"><?php _e( 'Settings', 'lokuswp' ); ?></label>
 
     <div class="tab-body-wrapper">
 
         <!------------ Tab : Test and Log ------------>
-        <div id="tab-body-senderpad-log" class="tab-body">
+        <div id="tab-body-dripsender-log" class="tab-body">
 
             <!--			<div class="divider" data-content="Test Notification"></div>-->
             <!--			<div class="input-group" style="width:50%;">-->
-            <!--				<input id="lokuswp_senderpad_test" style="margin-top:3px;" class="form-input input-md"-->
+            <!--				<input id="lokuswp_dripsender_test" style="margin-top:3px;" class="form-input input-md"-->
             <!--				       type="text" placeholder="0812387621f812">-->
-            <!--				<button id="lokuswp_senderpad_sendtest" style="margin-top:3px;"-->
+            <!--				<button id="lokuswp_dripsender_sendtest" style="margin-top:3px;"-->
             <!--				        class="btn btn-primary input-group-btn">-->
 			<?php //_e( 'Test Notification', "lokuswp" ); ?><!--</button>-->
             <!--			</div>-->
@@ -90,19 +90,19 @@ $token = lwp_sanitize( $settings['token'], 'attr' );
         </div>
 
         <!------------ Tab : Settings ------------>
-        <div id="tab-body-senderpad-settings" class="tab-body">
+        <div id="tab-body-dripsender-settings" class="tab-body">
             <!-- Content Pengaturan -->
             <form class="form-horizontal">
 
                 <!-- Sender Email -->
                 <div class="form-group">
                     <div class="col-3 col-sm-12">
-                        <label class="form-label" for="token"><?php _e( 'Token', "lokuswp-fonnte" ); ?></label>
+                        <label class="form-label" for="apikey"><?php _e( 'Token', "lokuswp-dripsender" ); ?></label>
                     </div>
                     <div class="col-9 col-sm-12">
                         <input class="form-input" type="password" autocompleted="off" name="token"
-                               placeholder="B8as91na12m1nn1243nS1n24An1n021" style="width:320px"
-                               value="<?= $token; ?>">
+                               placeholder="B8as91na12-m1nn1243nS1-n24An1n021" style="width:320px"
+                               value="<?= $apikey; ?>">
                     </div>
                 </div>
 
@@ -118,14 +118,14 @@ $token = lwp_sanitize( $settings['token'], 'attr' );
 
 <script>
     // Save Template
-    // jQuery(document).on("click", ".lokuswp_senderpad_template_save", function (e) {
+    // jQuery(document).on("click", ".lokuswp_dripsender_template_save", function (e) {
     //     jQuery(this).addClass('loading');
     //     let status = jQuery(this).attr('data-status');
-    //     let template = jQuery('.lokuswp_senderpad_template[data-status="' + status + '"]').val();
+    //     let template = jQuery('.lokuswp_dripsender_template[data-status="' + status + '"]').val();
     //     let that = this;
     //
     //     jQuery.post(lokuswp_admin.ajax_url, {
-    //         action: 'lokuswp_notification_senderpad_save',
+    //         action: 'lokuswp_notification_dripsender_save',
     //         status: status,
     //         template: template,
     //         security: lokuswp_admin.ajax_nonce,
@@ -142,8 +142,8 @@ $token = lwp_sanitize( $settings['token'], 'attr' );
     // });
     //
     // // On User Sending Test Email
-    // jQuery(document).on("click", "#lokuswp_senderpad_sendtest", function (e) {
-    //     const elTextPhone = jQuery('#lokuswp_senderpad_test');
+    // jQuery(document).on("click", "#lokuswp_dripsender_sendtest", function (e) {
+    //     const elTextPhone = jQuery('#lokuswp_dripsender_test');
     //     const that = this;
     //
     //     if (elTextPhone.val() !== '') {
@@ -151,7 +151,7 @@ $token = lwp_sanitize( $settings['token'], 'attr' );
     //         elTextPhone.css('border', 'none');
     //
     //         jQuery.post(lokuswp_admin.ajax_url, {
-    //             action: 'lokuswp_notification_senderpad_test',
+    //             action: 'lokuswp_notification_dripsender_test',
     //             phone: elTextPhone.val(),
     //             security: lokuswp_admin.ajax_nonce,
     //         }, function (response) {

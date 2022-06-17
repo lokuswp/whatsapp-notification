@@ -35,7 +35,6 @@ class Boot {
 		Deactivation::deactivate();
 	}
 
-
 	/**
 	 * Load Notification Class
 	 *
