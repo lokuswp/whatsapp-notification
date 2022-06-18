@@ -47,5 +47,5 @@ oleh vendor lainnya.
 - [X] Notifikasi ketika donasi selesai (completed)
 
 
-`Menggunakan API dari whatsva.id untuk keperluan testing, kamu bisa mengganti logika pengirimannya, dengan whatsapp gateway yang kamu inginkan.`
+`Menggunakan API dari whatsva.id untuk keperluan testing, anda dapat mengganti logika pengiriman, dengan whatsapp gateway yang diinginkan.`
 

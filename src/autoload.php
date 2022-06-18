@@ -46,15 +46,6 @@ class Boot {
 		require_once dirname( __DIR__ ) . '/src/includes/channel/class-notification-whatsapp.php';
 	}
 
-	/**
-	 * Load Notification Assets
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public function load_assets() {
-
-	}
 }
 
 new Boot();

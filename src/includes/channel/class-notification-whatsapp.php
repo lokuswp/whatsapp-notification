@@ -59,6 +59,16 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 			lwp_update_option( $this->id . '-lwcommerce', json_encode( $settings ) );
 		}
 
+		if ( empty( lwp_get_option( $this->id . '-lwdonation' ) ) ) {
+			$settings = [];
+			include LOKUSWP_VENDORNAME_PATH . 'src/includes/channel/notification-whatsapp/default-template-lwdonation.php';
+
+			$settings['pending']['user']['template']['id_ID']    = $template_pending_for_user;
+			$settings['completed']['user']['template']['id_ID']  = $template_completed_for_user;
+			$settings['cancelled']['user']['template']['id_ID']  = $template_cancelled_for_user;
+			lwp_update_option( $this->id . '-lwdonation', json_encode( $settings ) );
+		}
+
 	}
 
 	/**
@@ -175,9 +185,7 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 	public function execute( array $notification_obj ) {
 		$notification_obj = (object) $notification_obj;
 
-
 		if ( $this->status() && isset( $notification_obj->payment_id ) ) {
-
 
 			// Get Personal Data
 			$trx_id = abs( $notification_obj->transaction_id );

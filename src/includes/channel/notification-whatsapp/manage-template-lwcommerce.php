@@ -1,5 +1,5 @@
 <?php
-$settings = lwp_get_option( $this->id . '-lwcommerce' );
+$settings = json_decode(lwp_get_option( $this->id . '-lwcommerce' ), true);
 include LOKUSWP_VENDORNAME_PATH . 'src/includes/channel/notification-whatsapp/default-template-lwcommerce.php';
 
 $pending_template_for_user    = isset( $settings['pending']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['pending']['user']['template']['id_ID'] ) : $template_pending_for_user;
@@ -15,11 +15,11 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 
 <style>
     /* Action Tab */
-    #dripsender-tab1:checked ~ .tab-body-wrapper #dripsender-tab-body-1,
-    #dripsender-tab2:checked ~ .tab-body-wrapper #dripsender-tab-body-2,
-    #dripsender-tab3:checked ~ .tab-body-wrapper #dripsender-tab-body-3,
-    #dripsender-tab4:checked ~ .tab-body-wrapper #dripsender-tab-body-4,
-    #dripsender-tab5:checked ~ .tab-body-wrapper #dripsender-tab-body-5 {
+    #vendorname-tab1:checked ~ .tab-body-wrapper #vendorname-tab-body-1,
+    #vendorname-tab2:checked ~ .tab-body-wrapper #vendorname-tab-body-2,
+    #vendorname-tab3:checked ~ .tab-body-wrapper #vendorname-tab-body-3,
+    #vendorname-tab4:checked ~ .tab-body-wrapper #vendorname-tab-body-4,
+    #vendorname-tab5:checked ~ .tab-body-wrapper #vendorname-tab-body-5 {
         position: relative;
         top: 0;
         opacity: 1;
@@ -55,29 +55,29 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 <h4>Pengaturan Template </h4>
 <div class="tabs-wrapper">
 
-    <input type="radio" name="dripsender" id="dripsender-tab1" checked="checked"/>
-    <label class="tab" for="dripsender-tab1"><?php _e( 'Pending', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab1" checked="checked"/>
+    <label class="tab" for="vendorname-tab1"><?php _e( 'Pending', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="dripsender" id="dripsender-tab2"/>
-    <label class="tab" for="dripsender-tab2"><?php _e( 'Processing', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab2"/>
+    <label class="tab" for="vendorname-tab2"><?php _e( 'Processing', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="dripsender" id="dripsender-tab3"/>
-    <label class="tab" for="dripsender-tab3"><?php _e( 'Shipping', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab3"/>
+    <label class="tab" for="vendorname-tab3"><?php _e( 'Shipping', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="dripsender" id="dripsender-tab4"/>
-    <label class="tab" for="dripsender-tab4"><?php _e( 'Completed', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab4"/>
+    <label class="tab" for="vendorname-tab4"><?php _e( 'Completed', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="dripsender" id="dripsender-tab5"/>
-    <label class="tab" for="dripsender-tab5"><?php _e( 'Cancelled', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab5"/>
+    <label class="tab" for="vendorname-tab5"><?php _e( 'Cancelled', 'lokuswp' ); ?></label>
 
 
     <div class="tab-body-wrapper">
 
         <!------------ Tab : Pending ------------>
-        <div id="dripsender-tab-body-1" class="tab-body">
+        <div id="vendorname-tab-body-1" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Pembeli", "lokuswp-dripsender" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
                           name="pending[user][template][id_ID]"
                           placeholder="<?= $pending_template_for_user; ?>"
@@ -94,10 +94,10 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
         </div>
 
         <!------------ Tab : Processing ------------>
-        <div id="dripsender-tab-body-2" class="tab-body">
+        <div id="vendorname-tab-body-2" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Pembeli", "lokuswp-dripsender" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
                           name="processing[user][template][id_ID]"
                           placeholder="<?= $processing_template_for_user; ?>"
@@ -113,12 +113,12 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
         </div>
 
         <!------------ Tab : Shipping ------------>
-        <div id="dripsender-tab-body-3" class="tab-body">
+        <div id="vendorname-tab-body-3" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Pembeli", "lokuswp-dripsender" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
-                          name="shipping[user][template][id_ID]"
+                          name="shipped[user][template][id_ID]"
                           placeholder="<?= $shipped_template_for_user; ?>"
                           rows="9"><?= $shipped_template_for_user; ?></textarea>
 
@@ -132,16 +132,16 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
         </div>
 
         <!------------ Tab : Completed ------------>
-        <div id="dripsender-tab-body-4" class="tab-body">
+        <div id="vendorname-tab-body-4" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Pembeli", "lokuswp-dripsender" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
                           name="completed[user][template][id_ID]"
                           placeholder="<?= $completed_template_for_user; ?>"
                           rows="9"><?= $completed_template_for_user; ?></textarea>
 
-                <!--                <h6>--><?php //_e( "Untuk Admin", "lokuswp-dripsender" ); ?><!--</h6>-->
+                <!--                <h6>--><?php //_e( "Untuk Admin", "lokuswp-vendorname" ); ?><!--</h6>-->
                 <!--                <textarea class="form-input"-->
                 <!--                          name="completed[admin][template][id_ID]"-->
                 <!--                          placeholder="--><? //= $completed_template_for_admin; ?><!--"-->
@@ -158,10 +158,10 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 
 
         <!------------ Tab : Cancelled ------------>
-        <div id="dripsender-tab-body-5" class="tab-body">
+        <div id="vendorname-tab-body-5" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Pembeli", "lokuswp-dripsender" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
                           name="cancelled[user][template][id_ID]"
                           placeholder="<?= $cancelled_template_for_user; ?>"

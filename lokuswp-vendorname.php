@@ -4,7 +4,7 @@
  * @wordpress-plugin
  * @lokuswp-integration
  *
- * Plugin Name:       ☠️ LokusWP 🤝 VendorName
+ * Plugin Name:       🪝️ LokusWP 🤝 VendorName
  * Plugin URI:        https://vendorname.com/lokuswp
  * Description:       Whatsapp Notification for LokusWP
  * Version:           0.0.1
@@ -77,7 +77,8 @@ function lwp_vendorname_dependency() {
 
 add_action( 'admin_init', 'lwp_vendorname_dependency' );
 
-// Checking : Slug Folder
+// Checking : Slug Folder match with Plugin SLug
+// Comment this if you want to testing directly on your localhost
 //if ( ! file_exists( dirname( __DIR__ ) . '/lokuswp-vendorname/src/autoload.php' ) ) {
 //	add_action( 'admin_notices', function () {
 //		$message      = sprintf( esc_html__( 'LokusWP VendorName :: Nama folder slug anda tidak sesuai dengan nama slug plugin, harap ganti nama folder plugin anda dengan %s', 'lokuswp-vendorname' ), 'lokuswp-vendorname' );
@@ -92,4 +93,5 @@ add_action( 'admin_init', 'lwp_vendorname_dependency' );
 //	}
 //}
 
+// Run This, For Testing
 require_once dirname( __DIR__ ) . '/whatsapp-notification/src/autoload.php';
