@@ -6,7 +6,6 @@ class Boot {
 
 	public function __construct() {
 		add_action( 'plugins_loaded', [ $this, 'loaded' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
 
 		// Activation and Deactivation
 		register_activation_hook( LOKUSWP_VENDORNAME_BASE, [ $this, 'activate' ] );

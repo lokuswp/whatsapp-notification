@@ -1,8 +1,8 @@
-## 🪝 LokusWP - Whatsapp Notification Example
+## 🪝 LokusWP 🤝 VendorName
 
-Repository ini merupakan contoh penggunaan notifikasi Whatsapp untuk integrasi dengan plugin LokusWP.
+Repository ini merupakan contoh integrasi notifikasi whatsapp untuk LokusWP.
 
-Anda dapat membuat addon untuk integrasi notifikasi whatsapp dengan melakukan fork
+Anda dapat membuat `addon` untuk integrasi notifikasi whatsapp dengan melakukan fork
 pada repository ini, caranya
 
 1. Fork repository ini di akun anda
@@ -19,9 +19,11 @@ Setelah itu Ganti tulisan vendorname dengan nama brand anda\
 `namespace` : VendorName\
 `slug` : vendorname\
 `constant` : VENDORNAME\
-`file`: lokuswp-vendorname
+`file`: lokuswp-vendorname\
+`token` : 'apikey' atau 'instance_key' ini adalah key untuk authentikasi, anda bisa
+menyesuaikannya sesuai dengan penamaan di whatapp gateway anda.
 
-Anda dapat menambah fitur baru sesuai kebutuhan di repostiory anda.
+🚩 Anda dapat menambah fitur baru sesuai kebutuhan di repostiory anda.
 
 ### Terimakasih
 
@@ -29,6 +31,9 @@ Semoga bisa membantu, jika ada pertanyaan atau menemukan bug, silahkan
 kirimkan isu di repository ini. atau anda bisa ikut berkontribusi dan menambahkan fitur baru di repository ini dengan
 melakukan pull request, agar fitur tersebut bisa terdistribusi dan digunakan
 oleh vendor lainnya.
+
+Logika pengiriman berada di file\
+`src/includes/channel/class-notification-whatsapp:229 / method send()`
 
 <hr>
 
@@ -45,7 +50,4 @@ oleh vendor lainnya.
 
 - [X] Notifikasi ketika donasi masuk (pending)
 - [X] Notifikasi ketika donasi selesai (completed)
-
-
-`Menggunakan API dari whatsva.id untuk keperluan testing, anda dapat mengganti logika pengiriman, dengan whatsapp gateway yang diinginkan.`
 

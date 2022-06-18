@@ -63,9 +63,9 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 			$settings = [];
 			include LOKUSWP_VENDORNAME_PATH . 'src/includes/channel/notification-whatsapp/default-template-lwdonation.php';
 
-			$settings['pending']['user']['template']['id_ID']    = $template_pending_for_user;
-			$settings['completed']['user']['template']['id_ID']  = $template_completed_for_user;
-			$settings['cancelled']['user']['template']['id_ID']  = $template_cancelled_for_user;
+			$settings['pending']['user']['template']['id_ID']   = $template_pending_for_user;
+			$settings['completed']['user']['template']['id_ID'] = $template_completed_for_user;
+			$settings['cancelled']['user']['template']['id_ID'] = $template_cancelled_for_user;
 			lwp_update_option( $this->id . '-lwdonation', json_encode( $settings ) );
 		}
 
@@ -234,12 +234,12 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 		// Send Logic
 		try {
 
-			$request = wp_remote_post( 'https://whatsva.id/api/sendMessageText', array(
+			$request = wp_remote_post( 'https://vendorname.id/api/sendmessages', array(
 				'headers' => array( 'Content-Type' => 'application/json' ),
 				'body'    => json_encode( [
-					'instance_key' => $token,
-					'jid'          => $notification['recipient'],
-					'message'      => $notification['template']
+					'token'   => $token,
+					'phone'   => $notification['recipient'],
+					'message' => $notification['template']
 				] )
 			) );
 
