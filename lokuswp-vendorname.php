@@ -78,7 +78,7 @@ function lwp_vendorname_dependency() {
 add_action( 'admin_init', 'lwp_vendorname_dependency' );
 
 // Checking : Slug Folder match with Plugin SLug
-// Comment this if you want to testing directly on your localhost
+// Comment this if you want to test directly on your localhost, Uncomment for Production Ready
 //if ( ! file_exists( dirname( __DIR__ ) . '/lokuswp-vendorname/src/autoload.php' ) ) {
 //	add_action( 'admin_notices', function () {
 //		$message      = sprintf( esc_html__( 'LokusWP VendorName :: Nama folder slug anda tidak sesuai dengan nama slug plugin, harap ganti nama folder plugin anda dengan %s', 'lokuswp-vendorname' ), 'lokuswp-vendorname' );
@@ -93,5 +93,5 @@ add_action( 'admin_init', 'lwp_vendorname_dependency' );
 //	}
 //}
 
-// Run This, For Testing
+// Run This, For Development Purpose, Remove when Production Ready
 require_once dirname( __DIR__ ) . '/whatsapp-notification/src/autoload.php';
