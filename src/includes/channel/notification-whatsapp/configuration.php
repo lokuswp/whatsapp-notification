@@ -6,8 +6,8 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
 
 <style>
     /* Action Tab */
-    #tab-vendornmae-log:checked ~ .tab-body-wrapper #tab-body-vendornmae-log,
-    #tab-vendornmae-settings:checked ~ .tab-body-wrapper #tab-body-vendornmae-settings {
+    #tab-vendorname-log:checked ~ .tab-body-wrapper #tab-body-vendorname-log,
+    #tab-vendorname-settings:checked ~ .tab-body-wrapper #tab-body-vendorname-settings {
         position: relative;
         top: 0;
         opacity: 1;
@@ -41,22 +41,22 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
 </style>
 
 <div class="tabs-wrapper">
-    <input type="radio" name="vendornmae" id="tab-vendornmae-log" checked="checked"/>
-    <label class="tab" for="tab-vendornmae-log"><?php _e( 'Log', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="tab-vendorname-log" checked="checked"/>
+    <label class="tab" for="tab-vendorname-log"><?php _e( 'Log', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="vendornmae" id="tab-vendornmae-settings"/>
-    <label class="tab" for="tab-vendornmae-settings"><?php _e( 'Settings', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="tab-vendorname-settings"/>
+    <label class="tab" for="tab-vendorname-settings"><?php _e( 'Settings', 'lokuswp' ); ?></label>
 
     <div class="tab-body-wrapper">
 
         <!------------ Tab : Test and Log ------------>
-        <div id="tab-body-vendornmae-log" class="tab-body">
+        <div id="tab-body-vendorname-log" class="tab-body">
 
             <!--			<div class="divider" data-content="Test Notification"></div>-->
             <!--			<div class="input-group" style="width:50%;">-->
-            <!--				<input id="lokuswp_vendornmae_test" style="margin-top:3px;" class="form-input input-md"-->
+            <!--				<input id="lokuswp_vendorname_test" style="margin-top:3px;" class="form-input input-md"-->
             <!--				       type="text" placeholder="0812387621f812">-->
-            <!--				<button id="lokuswp_vendornmae_sendtest" style="margin-top:3px;"-->
+            <!--				<button id="lokuswp_vendorname_sendtest" style="margin-top:3px;"-->
             <!--				        class="btn btn-primary input-group-btn">-->
 			<?php //_e( 'Test Notification', "lokuswp" ); ?><!--</button>-->
             <!--			</div>-->
@@ -87,14 +87,14 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
         </div>
 
         <!------------ Tab : Settings ------------>
-        <div id="tab-body-vendornmae-settings" class="tab-body">
+        <div id="tab-body-vendorname-settings" class="tab-body">
             <!-- Content Pengaturan -->
             <form class="form-horizontal">
 
                 <!-- Sender Email -->
                 <div class="form-group">
                     <div class="col-3 col-sm-12">
-                        <label class="form-label" for="apikey"><?php _e( 'Token', "lokuswp-vendornmae" ); ?></label>
+                        <label class="form-label" for="apikey"><?php _e( 'Token', "lokuswp-vendorname" ); ?></label>
                     </div>
                     <div class="col-9 col-sm-12">
                         <input class="form-input" type="password" autocompleted="off" name="token"
@@ -115,14 +115,14 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
 
 <script>
     // Save Template
-    // jQuery(document).on("click", ".lokuswp_vendornmae_template_save", function (e) {
+    // jQuery(document).on("click", ".lokuswp_vendorname_template_save", function (e) {
     //     jQuery(this).addClass('loading');
     //     let status = jQuery(this).attr('data-status');
-    //     let template = jQuery('.lokuswp_vendornmae_template[data-status="' + status + '"]').val();
+    //     let template = jQuery('.lokuswp_vendorname_template[data-status="' + status + '"]').val();
     //     let that = this;
     //
     //     jQuery.post(lokuswp_admin.ajax_url, {
-    //         action: 'lokuswp_notification_vendornmae_save',
+    //         action: 'lokuswp_notification_vendorname_save',
     //         status: status,
     //         template: template,
     //         security: lokuswp_admin.ajax_nonce,
@@ -139,8 +139,8 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
     // });
     //
     // // On User Sending Test Email
-    // jQuery(document).on("click", "#lokuswp_vendornmae_sendtest", function (e) {
-    //     const elTextPhone = jQuery('#lokuswp_vendornmae_test');
+    // jQuery(document).on("click", "#lokuswp_vendorname_sendtest", function (e) {
+    //     const elTextPhone = jQuery('#lokuswp_vendorname_test');
     //     const that = this;
     //
     //     if (elTextPhone.val() !== '') {
@@ -148,7 +148,7 @@ $apikey = isset( $settings['token'] ) ? lwp_sanitize( $settings['token'], 'attr'
     //         elTextPhone.css('border', 'none');
     //
     //         jQuery.post(lokuswp_admin.ajax_url, {
-    //             action: 'lokuswp_notification_vendornmae_test',
+    //             action: 'lokuswp_notification_vendorname_test',
     //             phone: elTextPhone.val(),
     //             security: lokuswp_admin.ajax_nonce,
     //         }, function (response) {

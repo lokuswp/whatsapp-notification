@@ -14,8 +14,8 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 
 	protected array $country = [ 'ID', 'US' ];
 	protected array $docs_url = array(
-		'id_ID' => 'https://panduan.lokuswp.id/lokuswp/notifikasi/email',
-		'en_US' => 'https://guide.lokuswp.com/lokuswp/notification/email',
+		'id_ID' => 'https://panduan.lokuswp.id/lokuswp/notifikasi/vendorname',
+		'en_US' => 'https://guide.lokuswp.com/lokuswp/notification/vendorname',
 	);
 
 	/******************************************************************************************/
