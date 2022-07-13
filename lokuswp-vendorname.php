@@ -4,7 +4,7 @@
  * @wordpress-plugin
  * @lokuswp-integration
  *
- * Plugin Name:       🪝️ LokusWP 🤝 VendorName
+ * Plugin Name:       🪝 LokusWP 🤝 VendorName
  * Plugin URI:        https://vendorname.com/lokuswp
  * Description:       Whatsapp Notification for LokusWP
  * Version:           0.0.1
