@@ -124,6 +124,8 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 	 */
 	public function templating( $role, $notification_obj ) {
 
+		do_action( 'lokuswp/notification/whatsapp/vendorname/before_templating', $notification_obj );
+
 		$locale = lwp_get_locale_by_country( $notification_obj->country ); // id_ID
 
 		// Getting Email Data, based on App
@@ -141,6 +143,10 @@ class Notification_Whatsapp_VendorName extends Notification\Gateway {
 		$template = str_replace( "{{payment}}", lwp_get_notification_block_payment_text( $locale, $notification_obj ), $template );
 		$template = str_replace( "{{summary}}", lwp_get_notification_block_summary_text( $locale, $notification_obj->cart_uuid ), $template );
 		$template = str_replace( "{{billing}}", lwp_get_notification_block_billing_text( $locale, $notification_obj->transaction_id ), $template );
+
+		$template = apply_filters( 'lokuswp/notification/whatsapp/vendorname/templating', $data, $template );
+
+		do_action( 'lokuswp/notification/whatsapp/vendorname/after_templating', $notification_obj );
 
 		return $template;
 	}
