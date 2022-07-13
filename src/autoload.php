@@ -6,7 +6,6 @@ class Boot {
 
 	public function __construct() {
 		add_action( 'plugins_loaded', [ $this, 'loaded' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ] );
 
 		// Activation and Deactivation
 		register_activation_hook( LOKUSWP_VENDORNAME_BASE, [ $this, 'activate' ] );
@@ -35,7 +34,6 @@ class Boot {
 		Deactivation::deactivate();
 	}
 
-
 	/**
 	 * Load Notification Class
 	 *
@@ -47,15 +45,6 @@ class Boot {
 		require_once dirname( __DIR__ ) . '/src/includes/channel/class-notification-whatsapp.php';
 	}
 
-	/**
-	 * Load Notification Assets
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public function load_assets() {
-
-	}
 }
 
 new Boot();

@@ -1,43 +1,23 @@
 <?php
-$settings = lwp_get_option( $this->id . '-lwdonation' );
-
-$template_pending_for_user = 'Kepada YTH Bpk/Ibu *{{name}}*
-Berikut ini Pesanan Anda :
-{{program}}
-
-Total Pembayaran : {{total}}
-
-Silahkan Lakukan Pembayaran
-{{payment}}
-
-Salam Hangat
-*LokusWP*';
-
-
-$template_completed_for_user = 'Terimakasih *{{customer}}*
-atas donasi yang telah Anda berikan
-Donasi {{product}} akan kami sampaikan kepada orang-orang yang membutuhkan
-
-*Semoga menjadi amal ibadah anda dan Tuhan memberi keberkahan*
-
-Salam Hangat
-*LokusWP*';
-
-
-$template_completed_for_admin = 'Donasi Baru Masuk';
+$settings = json_decode( lwp_get_option( $this->id . '-lwdonation' ), true );
+include LOKUSWP_VENDORNAME_PATH . 'src/includes/channel/notification-whatsapp/default-template-lwdonation.php';
 
 $pending_template_for_user   = isset( $settings['pending']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['pending']['user']['template']['id_ID'] ) : $template_pending_for_user;
-$cancelled_template_for_user = isset( $settings['cancelled']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['cancelled']['user']['template']['id_ID'] ) : null;
+$completed_template_for_user = isset( $settings['completed']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['completed']['user']['template']['id_ID'] ) : $template_completed_for_user;
+$cancelled_template_for_user = isset( $settings['cancelled']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['cancelled']['user']['template']['id_ID'] ) : $template_cancelled_for_user;
 
-$completed_template_for_user  = isset( $settings['completed']['user']['template']['id_ID'] ) ? lwp_sanitize( $settings['completed']['user']['template']['id_ID'] ) : $template_completed_for_user;
+
+$template_completed_for_admin = 'Donasi Baru Min !!!';
 $completed_template_for_admin = isset( $settings['completed']['admin']['template']['id_ID'] ) ? lwp_sanitize( $settings['completed']['admin']['template']['id_ID'] ) : $template_completed_for_admin;
 ?>
 
 <style>
     /* Action Tab */
-    #fonnte-tab1:checked ~ .tab-body-wrapper #fonnte-tab-body-1,
-    #fonnte-tab2:checked ~ .tab-body-wrapper #fonnte-tab-body-2,
-    #fonnte-tab3:checked ~ .tab-body-wrapper #fonnte-tab-body-3 {
+    #vendorname-tab1:checked ~ .tab-body-wrapper #vendorname-tab-body-1,
+    #vendorname-tab2:checked ~ .tab-body-wrapper #vendorname-tab-body-2,
+    #vendorname-tab3:checked ~ .tab-body-wrapper #vendorname-tab-body-3,
+    #vendorname-tab4:checked ~ .tab-body-wrapper #vendorname-tab-body-4,
+    #vendorname-tab5:checked ~ .tab-body-wrapper #vendorname-tab-body-5 {
         position: relative;
         top: 0;
         opacity: 1;
@@ -73,22 +53,23 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 <h4>Pengaturan Template </h4>
 <div class="tabs-wrapper">
 
-    <input type="radio" name="fonnte" id="fonnte-tab1" checked="checked"/>
-    <label class="tab" for="fonnte-tab1"><?php _e( 'Pending', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab1" checked="checked"/>
+    <label class="tab" for="vendorname-tab1"><?php _e( 'Pending', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="fonnte" id="fonnte-tab2"/>
-    <label class="tab" for="fonnte-tab2"><?php _e( 'Cancelled', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab2"/>
+    <label class="tab" for="vendorname-tab2"><?php _e( 'Completed', 'lokuswp' ); ?></label>
 
-    <input type="radio" name="fonnte" id="fonnte-tab3"/>
-    <label class="tab" for="fonnte-tab3"><?php _e( 'Completed', 'lokuswp' ); ?></label>
+    <input type="radio" name="vendorname" id="vendorname-tab3"/>
+    <label class="tab" for="vendorname-tab3"><?php _e( 'Cancelled', 'lokuswp' ); ?></label>
+
 
     <div class="tab-body-wrapper">
 
-        <!------------ Tab : Log ------------>
-        <div id="fonnte-tab-body-1" class="tab-body">
+        <!------------ Tab : Pending ------------>
+        <div id="vendorname-tab-body-1" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Donatur", "lokuswp-fonnte" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
                           name="pending[user][template][id_ID]"
                           placeholder="<?= $pending_template_for_user; ?>"
@@ -104,15 +85,21 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 
         </div>
 
-        <!------------ Tab : Cancelled ------------>
-        <div id="fonnte-tab-body-2" class="tab-body">
+        <!------------ Tab : Completed ------------>
+        <div id="vendorname-tab-body-2" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Donatur", "lokuswp-fonnte" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
-                          name="cancelled[user][template][id_ID]"
-                          placeholder="<?= $cancelled_template_for_user; ?>"
-                          rows="9"><?= $cancelled_template_for_user; ?></textarea>
+                          name="completed[user][template][id_ID]"
+                          placeholder="<?= $completed_template_for_user; ?>"
+                          rows="9"><?= $completed_template_for_user; ?></textarea>
+
+                <!--                <h6>--><?php //_e( "Untuk Admin", "lokuswp-vendorname" ); ?><!--</h6>-->
+                <!--                <textarea class="form-input"-->
+                <!--                          name="completed[admin][template][id_ID]"-->
+                <!--                          placeholder="--><? //= $completed_template_for_admin; ?><!--"-->
+                <!--                          rows="9">--><? //= $completed_template_for_admin; ?><!--</textarea>-->
 
                 <button style="margin-top:12px" class="btn btn-primary input-group-btn lokuswp_admin_option_array_save"
                         option="<?= $this->id ?>-lwdonation">
@@ -123,23 +110,16 @@ $completed_template_for_admin = isset( $settings['completed']['admin']['template
 
         </div>
 
-        <!------------ Tab : On Unpaid ------------>
-        <div id="fonnte-tab-body-3" class="tab-body">
+
+        <!------------ Tab : Cancelled ------------>
+        <div id="vendorname-tab-body-3" class="tab-body">
 
             <form>
-                <h6><?php _e( "Untuk Donatur", "lokuswp-fonnte" ); ?></h6>
+                <h6><?php _e( "Untuk Pembeli", "lokuswp-vendorname" ); ?></h6>
                 <textarea class="form-input"
-                          name="completed[user][template][id_ID]"
-                          placeholder="<?= $completed_template_for_user; ?>"
-                          rows="9"><?= $completed_template_for_user; ?></textarea>
-
-                <br>
-
-                <h6><?php _e( "Untuk Admin", "lokuswp-fonnte" ); ?></h6>
-                <textarea class="form-input"
-                          name="completed[admin][template][id_ID]"
-                          placeholder="<?= $completed_template_for_admin; ?>"
-                          rows="9"><?= $completed_template_for_admin; ?></textarea>
+                          name="cancelled[user][template][id_ID]"
+                          placeholder="<?= $cancelled_template_for_user; ?>"
+                          rows="9"><?= $cancelled_template_for_user; ?></textarea>
 
                 <button style="margin-top:12px" class="btn btn-primary input-group-btn lokuswp_admin_option_array_save"
                         option="<?= $this->id ?>-lwdonation">
